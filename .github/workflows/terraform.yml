@@ -1,4 +1,6 @@
 name: Terraform Apply
+on: 
+  workflow_call:
 jobs:
     terraform:
         runs-on: ubuntu-latest

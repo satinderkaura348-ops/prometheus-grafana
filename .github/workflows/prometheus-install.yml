@@ -1,4 +1,6 @@
 name: Prometheus Setup
+on: 
+  workflow_call:
 jobs:
   install_Prometheus:
     runs-on: ubuntu-latest

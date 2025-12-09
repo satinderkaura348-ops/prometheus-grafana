@@ -1,4 +1,6 @@
 name: Grafana Setup
+on: 
+  workflow_call:
 jobs:
   install_Grafana:
     runs-on: ubuntu-latest
