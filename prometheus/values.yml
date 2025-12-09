@@ -1,0 +1,35 @@
+namespace: prometheus
+createNamespace: true
+
+fullnameOverride: prometheus
+
+prometheus:
+  prometheusSpec:
+    replicas: 2               # HA setup for production
+    retention: 15d            # Retain metrics for 15 days
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3  # AWS EBS storage class
+          resources:
+            requests:
+              storage: 50Gi      # Adjust based on expected metrics
+    nodeSelector:
+      nodegroup: monitoring     # Optional: pin to monitoring node
+    tolerations:
+      - key: "monitoring"
+        operator: "Exists"
+        effect: "NoSchedule"
+alertmanager:
+  alertmanagerSpec:
+    replicas: 2
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3
+          resources:
+            requests:
+              storage: 10Gi
+service:
+  type: LoadBalancer      # AWS will provision ELB automatically
+  port: 9090

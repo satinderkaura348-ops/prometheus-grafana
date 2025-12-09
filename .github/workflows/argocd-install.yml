@@ -1,0 +1,48 @@
+name: ArgoCD Install
+
+jobs:
+  argocd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: AWS login
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Configure kubectl
+        run: |
+          aws eks --region ap-southeast-2 update-kubeconfig --name monitoring_cluster
+
+      #  Install Argo CD namespace & bootstrap Application
+      - name: Install ArgoCD
+        working-directory: argoCD/install
+        run: |
+          kubectl apply -f install.yml
+
+      # Apply Argo CD configs and secrets (SSO, RBAC, admin, webhooks)
+      - name: Apply ArgoCD Configs & Secrets
+        working-directory: argoCD/configs
+        env:
+          ARGOCD_AUTH_CLIENT_ID: ${{ secrets.ARGOCD_AUTH_CLIENT_ID }}
+          ARGOCD_AUTH_CLIENT_SECRET: ${{ secrets.ARGOCD_AUTH_CLIENT_SECRET }}
+          ARGOCD_ADMIN_PASSWORD: ${{ secrets.ARGOCD_ADMIN_PASSWORD }}
+          ARGOCD_ADMIN_PASSWORD_MTIME: ${{ secrets.ARGOCD_ADMIN_PASSWORD_MTIME }}
+          ARGOCD_SERVER_SECRETKEY: ${{ secrets.ARGOCD_SERVER_SECRETKEY }}
+          ARGOCD_WEBHOOK_GITHUB_SECRET: ${{ secrets.ARGOCD_WEBHOOK_GITHUB_SECRET }}
+          ARGOCD_ALICE_PASSWORD: ${{ secrets.ARGOCD_ALICE_PASSWORD }}
+        run: |
+          kubectl apply -f argocd-secret.yml
+          kubectl apply -f argocd-cm.yml
+          kubectl apply -f argocd-rbac-cm.yml
+
+      # Create Argo CD Application for your Pet App
+      - name: Install Pet App via ArgoCD
+        working-directory: argoCD
+        run: |
+          kubectl apply -f petapp.yml

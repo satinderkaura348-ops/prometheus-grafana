@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  # Define policies
+  policy.csv: |
+    p, role:admin, applications, *, */*, allow
+    p, role:readonly, applications, get, */*, allow
+
+  # Map groups to roles
+  policy.default.role: role:readonly
+  scopes: '[groups]'

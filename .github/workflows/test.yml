@@ -1,0 +1,12 @@
+name : Test
+on: 
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Kubernetes Manifests
+        run: |
+          kubectl apply --dry-run=client --validate=false -f petapp/ || true

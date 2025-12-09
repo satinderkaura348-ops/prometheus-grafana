@@ -1,0 +1,31 @@
+name: CICD Pipeline
+on:
+    push:
+        branches:
+            - dev
+
+jobs:
+    infra:
+        uses: ./.github/workflows/terraform.yml
+        secrets: inherit
+
+    argocd:
+        uses: ./.github/workflows/argocd-install.yml
+        needs: infra
+        secrets: inherit
+
+    prometheus:
+        uses: ./.github/workflows/prometheus-install.yml
+        needs: infra
+        secrets: inherit
+
+    grafana:
+        uses: ./.github/workflows/grafana-install.yml
+        needs: prometheus
+        secrets: inherit
+
+    test:
+        uses: ./.github/workflows/test.yml
+        needs: argocd
+        secrets: inherit
+

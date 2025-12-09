@@ -1,0 +1,39 @@
+name: Grafana Setup
+jobs:
+  install_Grafana:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: AWS login
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Configure kubectl
+        run: |
+          aws eks --region ap-southeast-2 update-kubeconfig --name monitoring_cluster
+
+      - name: Grafana Helm repo add
+        working-directory: grafana
+        run: |
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+
+
+      - name: Create namespace (if not exists)
+        run: |
+          kubectl create namespace grafana || true
+
+      - name: Install Grafana
+        working-directory: grafana
+        run: |
+          helm upgrade --install grafana grafana-community/grafana \
+          -f values.yml \
+          --namespace grafana \
+          --set adminPassword=${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+
