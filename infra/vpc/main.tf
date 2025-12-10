@@ -13,12 +13,23 @@ module "vpc" {
 
   enable_nat_gateway = true
   single_nat_gateway = false
+  one_nat_gateway_per_az = true 
 
   tags = {
     Environment = "Dev"
     Project     = "Prometheus-Grafana"
   }
+
+   # Separate tags for different resource types
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = "1"
+  }
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = "1"
+  }
 }
+
 
 
 data "aws_availability_zones" "available" {
