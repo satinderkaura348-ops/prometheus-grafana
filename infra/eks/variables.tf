@@ -12,3 +12,7 @@ variable "node_role_arn" {
   description = "IAM role ARN for EKS node group"
   type        = string
 }
+
+variable "region" {
+  default = "ap-southeast-2"
+}

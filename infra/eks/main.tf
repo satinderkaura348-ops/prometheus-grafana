@@ -1,44 +1,35 @@
-resource "aws_eks_cluster" "cluster" {
-  name = "monitoring_cluster"
-
-  role_arn = var.cluster_role_arn
-  version  = "1.31"
-
-  vpc_config {
-    subnet_ids = var.private_subnets
-
-  }
-
-
-}
-
-
-resource "aws_eks_node_group" "node_group" {
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "monitoring_node_group"
-  node_role_arn   = var.node_role_arn
-  subnet_ids      = var.private_subnets
-
-
-  scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 1
-  }
-
-   instance_types = ["t3.medium"]
-
-  update_config {
-    max_unavailable = 1
-  }
-
-  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
-  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-
+module "eks" {
+  source          = "terraform-aws-modules/eks/aws"
+  version         = "22.2.0"  
+  cluster_name    = var.cluster_name
+  cluster_version = "1.29"
+  subnets         = module.vpc.private_subnets
+  vpc_id          = module.vpc.vpc_id
 
   tags = {
-  Environment = "Dev"
-  Project     = "Prometheus-Grafana"
+    Environment = "Dev"
+    Project     = "Prometheus-Grafana"
 }
 
+  # Node Groups
+  eks_managed_node_groups = {
+    one = {
+      name           = "node-group-1"
+      instance_types = ["t3.small"]
+      min_size       = 1
+      max_size       = 3
+      desired_size   = 2
+    }
+    two = {
+      name           = "node-group-2"
+      instance_types = ["t3.small"]
+      min_size       = 1
+      max_size       = 2
+      desired_size   = 1
+    }
+
+
+  }
 }
+
+
