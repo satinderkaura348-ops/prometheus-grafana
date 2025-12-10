@@ -4,7 +4,7 @@ data "aws_caller_identity" "current" {}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "22.0.0"
+  version = "21.10.1"
 
   name    = var.cluster_name
   kubernetes_version = "1.33"
@@ -15,8 +15,8 @@ module "eks" {
   create_kms_key = false
 
   # THIS IS THE KEY FIX FOR v21+
-  enable_cluster_encryption_config = false   # ← disables the entire block
-  cluster_encryption_config        = []      # ← must be empty list when disabled
+  
+  encryption_config  = null     # ← must be empty list when disabled
 
   # Disable CloudWatch log group creation
   create_cloudwatch_log_group = false
