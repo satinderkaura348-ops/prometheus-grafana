@@ -1,5 +1,13 @@
-variable "private_subnets" {
-  description = "List of private subnet IDs for EKS cluster"
+#eks/variables.tf
+
+
+variable "vpc_id" {
+  description = "VPC ID for EKS"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "Private subnet IDs for EKS"
   type        = list(string)
 }
 
@@ -13,20 +21,7 @@ variable "node_role_arn" {
   type        = string
 }
 
-variable "region" {
-  default = "ap-southeast-2"
-}
-
 variable "cluster_name" {
-  default = "monitoring_cluster"
-  }
-
-  variable "subnet_ids" {
-  description = "Private subnets IDs for EKS"
-  type        = list(string)
-}
-
-variable "vpc_id" {
-  description = "VPC ID for EKS"
+  description = "EKS cluster name"
   type        = string
 }

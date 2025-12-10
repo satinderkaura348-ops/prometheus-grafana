@@ -1,3 +1,5 @@
+#eks/outputs.tf
+
 output "cluster_endpoint" {
   description = "Endpoint for EKS control plane"
   value       = module.eks.cluster_endpoint
@@ -8,10 +10,7 @@ output "cluster_security_group_id" {
   value       = module.eks.cluster_security_group_id
 }
 
-output "region" {
-  description = "AWS region"
-  value       = var.region
-}
+
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
