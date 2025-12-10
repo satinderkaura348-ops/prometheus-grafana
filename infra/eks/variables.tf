@@ -20,3 +20,13 @@ variable "region" {
 variable "cluster_name" {
   default = "monitoring_cluster"
   }
+
+  variable "subnet_ids" {
+  description = "Private subnets IDs for EKS"
+  type        = list(string)
+}
+
+variable "vpc_id" {
+  description = "VPC ID for EKS"
+  type        = string
+}

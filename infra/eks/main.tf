@@ -1,9 +1,13 @@
+module "vpc" {
+  source = "./vpc"
+}
+
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "21.10.1"  
   name    = var.cluster_name
   kubernetes_version = "1.33"
-  subnet_ids         = module.vpc.private_subnets
+  subnet_ids         = module.vpc.private_subnet_ids
   vpc_id          = module.vpc.vpc_id
   
   tags = {
