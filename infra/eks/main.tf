@@ -11,6 +11,10 @@ module "eks" {
   subnet_ids      = var.subnet_ids
   vpc_id          = var.vpc_id
 
+  create_iam_role = false
+  iam_role_arn    = var.cluster_role_arn
+  
+  endpoint_public_access  = true
   # Disable custom KMS key creation
   create_kms_key = false
 
