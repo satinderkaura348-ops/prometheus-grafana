@@ -1,0 +1,45 @@
+name: Full CI/CD + GitOps
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ dev ]
+
+jobs:
+  terraform:
+    uses: ./.github/workflows/terraform.yml
+    secrets: inherit
+
+  deploy-via-argocd:
+    needs: terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS & kubectl
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      - run: aws eks update-kubeconfig --name monitoring_cluster
+
+      - name: Wait for ArgoCD to be ready
+        run: |
+          kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=300s
+
+      - name: Apply ArgoCD Bootstrap + All Apps (100% GitOps)
+        run: |
+          kubectl apply -f argoCD/install/install.yml     # boots ArgoCD + monitoring-stack
+          kubectl apply -f argoCD/petapp.yml              # your petapp
+
+      - name: Wait for everything to be Healthy
+        run: |
+          kubectl wait --for=condition=Healthy application/monitoring-stack -n argocd --timeout=900s
+          kubectl wait --for=condition=Healthy application/petapp -n argocd --timeout=600s
+
+      - name: Success Message
+        run: |
+          echo "EKS + ArgoCD + kube-prometheus-stack + petapp → ALL DEPLOYED VIA GITOPS"
+          echo "Grafana: $(kubectl get svc -n monitoring monitoring-stack-grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"

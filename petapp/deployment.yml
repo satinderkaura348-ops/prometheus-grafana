@@ -12,8 +12,11 @@ spec:
       app: petapp
   template:
     metadata:
-      labels:
-        app: petapp
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    labels:
+      app: petapp
     spec:
       containers:
       - name: petapp

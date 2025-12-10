@@ -1,0 +1,82 @@
+# Namespace & general settings
+namespace: monitoring
+createNamespace: true
+
+# Fullname override for Helm release naming
+fullnameOverride: monitoring-stack
+
+# Prometheus configuration
+prometheus:
+  service:
+    type: LoadBalancer
+    port: 9090
+  prometheusSpec:
+    replicas: 2                   # HA setup
+    retention: 15d                # Retain metrics for 15 days
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3   # AWS EBS storage
+          resources:
+            requests:
+              storage: 50Gi       # Adjust based on expected metrics
+    nodeSelector:
+      nodegroup: monitoring       # Optional: pin to monitoring node
+    tolerations:
+      - key: "monitoring"
+        operator: "Exists"
+        effect: "NoSchedule"
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+# Alertmanager configuration
+alertmanager:
+  alertmanagerSpec:
+    replicas: 2
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3
+          resources:
+            requests:
+              storage: 10Gi
+
+# Grafana configuration
+grafana:
+  adminUser: admin
+  adminPassword: "{{ .Values.grafanaAdminPassword }}" # Use ArgoCD secret or Helm value
+  replicaCount: 2                                   # HA setup
+  persistence:
+    enabled: true
+    storageClassName: gp3
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+  service:
+    type: LoadBalancer
+    port: 3000
+  ingress:
+    enabled: false
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://monitoring-stack-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          isDefault: true
+  dashboards:
+    default:
+      my-dashboard:
+        json: |
+          {
+            "dashboard": {
+              "id": null,
+              "title": "Sample Dashboard",
+              "panels": [],
+              "schemaVersion": 16,
+              "version": 0
+            }
+          }
+
+
