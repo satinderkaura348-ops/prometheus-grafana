@@ -8,6 +8,9 @@ module "eks" {
   kubernetes_version = "1.33"
   subnet_ids = var.subnet_ids
   vpc_id = var.vpc_id
+  create_kms_key  = false
+
+  create_cloudwatch_log_group = false
   
   tags = {
     Environment = "Dev"
