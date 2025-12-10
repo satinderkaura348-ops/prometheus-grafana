@@ -16,3 +16,7 @@ variable "node_role_arn" {
 variable "region" {
   default = "ap-southeast-2"
 }
+
+variable "cluster_name" {
+  default = "monitoring_cluster"
+  }
