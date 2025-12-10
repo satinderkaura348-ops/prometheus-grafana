@@ -12,8 +12,10 @@ module "vpc" {
   public_subnets  = slice(var.public_subnets, 0, 3)
 
   enable_nat_gateway = true
-  single_nat_gateway = false
-  one_nat_gateway_per_az = true 
+  single_nat_gateway = true
+  one_nat_gateway_per_az = false
+
+  map_public_ip_on_launch = true 
 
   tags = {
     Environment = "Dev"
