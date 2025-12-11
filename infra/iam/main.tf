@@ -1,4 +1,4 @@
-
+#iam/main.tf
 
 resource "aws_iam_role" "cluster" {
   name = "monitoring_cluster_iam"
@@ -19,11 +19,6 @@ resource "aws_iam_role" "cluster" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.cluster.name
-}
-
 
 resource "aws_iam_role" "node" {
     name = "monitoring_node_group"
@@ -41,10 +36,17 @@ resource "aws_iam_role" "node" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodeMinimalPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy"
+resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.cluster.name
+}
+
+resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node.name
 }
+
+
 
 resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryPullOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
