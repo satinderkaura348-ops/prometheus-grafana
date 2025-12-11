@@ -14,8 +14,8 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets
 
-  # cluster_role_arn = module.iam.cluster_role_arn
-  # node_role_arn    = module.iam.node_role_arn
+  cluster_role_arn = module.iam.cluster_role_arn
+  node_role_arn    = module.iam.node_role_arn
   cluster_name     = "monitoring_cluster"
 }
 
