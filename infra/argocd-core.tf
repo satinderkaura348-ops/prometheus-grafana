@@ -15,6 +15,7 @@ resource "helm_release" "argocd" {
       name  = "server.service.type"
       value = "LoadBalancer"
     },
+    
     {
       name  = "server.ingress.enabled"
       value = "false"
