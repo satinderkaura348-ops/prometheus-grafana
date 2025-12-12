@@ -1,7 +1,10 @@
+#petapp/servicemonitor.yml
+
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: petapp-monitor
+  namespace: petapp
   labels:
     release: prometheus 
   selector:
