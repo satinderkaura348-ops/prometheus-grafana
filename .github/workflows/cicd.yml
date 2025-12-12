@@ -4,7 +4,7 @@ name: Full CI/CD + GitOps
 
 on:
   workflow_dispatch:
-  push:
+  # push:
     
 
 jobs:
