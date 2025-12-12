@@ -13,4 +13,7 @@ metadata:
   endpoints:
   - port: http
     interval: 30s
-    path: /actuator/prometheus  
+    path: /metric
+  namespaceSelector:
+    matchNames:
+    - petapp
