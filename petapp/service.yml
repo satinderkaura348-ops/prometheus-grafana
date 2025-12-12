@@ -1,0 +1,15 @@
+#petapp/service.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: petapp-service
+  namespace: petapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: petapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
