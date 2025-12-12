@@ -60,15 +60,35 @@ module "eks" {
     }
   }
 
-  fargate_profiles = {
-    profile1 = {
-        selectors = [
-            {
-                namespace = "kube-system"
-            }
-        ]
+    node_security_group_additional_rules = {
+    # Allow nodes to communicate with each other
+    ingress_self_all = {
+      description = "Node to node all ports"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      type        = "ingress"
+      self        = true
+    }
+    # Allow nodes to egress to cluster API
+    egress_cluster_443 = {
+      description      = "Node to cluster API"
+      protocol         = "tcp"
+      from_port        = 443
+      to_port          = 443
+      type             = "egress"
+      source_cluster_security_group = true
     }
   }
+  # fargate_profiles = {
+  #   profile1 = {
+  #       selectors = [
+  #           {
+  #               namespace = "argocd"
+  #           }
+  #       ]
+  #   }
+  # }
 
   tags = var.tags
 }
