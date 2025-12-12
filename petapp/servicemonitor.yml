@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: petapp-monitor
+  labels:
+    release: prometheus 
+  selector:
+    matchLabels:
+      app: petapp
+  endpoints:
+  - port: http
+    interval: 30s
+    path: /actuator/prometheus  
