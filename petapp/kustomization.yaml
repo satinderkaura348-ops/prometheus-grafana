@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: petapp
 
 resources:
-  - namespace.yml
-  - deployment.yml
-  - service.yml
-  - servicemonitor.yml
-  #
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - servicemonitor.yaml
+  
