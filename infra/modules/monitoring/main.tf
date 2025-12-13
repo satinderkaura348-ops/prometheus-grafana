@@ -46,5 +46,4 @@ resource "helm_release" "prometheus-helm" {
     }
   ]
 
-  depends_on = [module.eks]
 }

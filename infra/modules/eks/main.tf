@@ -1,4 +1,4 @@
-#infra/eks.tf
+# infra/modules/eks/main.tf
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -7,15 +7,13 @@ module "eks" {
   name               = var.cluster_name
   kubernetes_version = "1.33"
 
-  vpc_id     = module.vpc.vpc_id 
+  vpc_id     = var.vpc_id 
 
   create_iam_role = true 
   attach_encryption_policy = false 
-  
   endpoint_private_access = true 
   endpoint_public_access = true 
-
-  control_plane_subnet_ids = concat(module.vpc.private_subnets, module.vpc.public_subnets)
+  control_plane_subnet_ids = concat(var.private_subnets, var.public_subnets)
 
   create_security_group = true 
   security_group_description = "EKS security Group"
@@ -40,26 +38,26 @@ module "eks" {
   node_security_group_description = "Security groups used by nodes to communicate with cluster"
 
   node_security_group_use_name_prefix = true 
-
-
-  subnet_ids = module.vpc.private_subnets
-  eks_managed_node_groups = {
+eks_managed_node_groups = {
     group1 = {
-        name = "node-group-1"
+      name           = "node-group-1"
       instance_types = ["t3.medium"]
       min_size       = 1
       max_size       = 3
       desired_size   = 2
+    
     }
     group2 = {
-      name           = "node-group-2"
+      name           = "node-group-2" 
       instance_types = ["t3.medium"]
       min_size       = 1
       max_size       = 2
       desired_size   = 1
+     
     }
-  }
+  } 
 
+  subnet_ids = var.private_subnets
     node_security_group_additional_rules = {
     # Allow nodes to communicate with each other
     ingress_self_all = {
@@ -80,15 +78,17 @@ module "eks" {
       source_cluster_security_group = true
     }
   }
-  # fargate_profiles = {
-  #   profile1 = {
-  #       selectors = [
-  #           {
-  #               namespace = "argocd"
-  #           }
-  #       ]
-  #   }
-  # }
+
+ addons = {
+    coredns                = {}
+    eks-pod-identity-agent = {
+      before_compute = true
+    }
+    kube-proxy             = {}
+    vpc-cni                = {
+      before_compute = true
+    }
+  }
 
   tags = var.tags
 }
