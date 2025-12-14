@@ -1,4 +1,6 @@
                                         **EKS Monitoring Stack with GitOps (ArgoCD)**
+                                        
+<img width="3576" height="5389" alt="final2" src="https://github.com/user-attachments/assets/cffc4816-6edf-47dc-bf56-0e2a4022df2e" />
 
 **🏗️ Architecture Overview**
 
