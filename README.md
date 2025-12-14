@@ -19,37 +19,64 @@ Sample PetApp with ServiceMonitor
 GitHub Actions CI/CD pipeline
 ```
 
-📁 Project Structure
+**📁 Project Structure**
 
 '''
 
 ├── README.md
+
 ├── infra
+
 │   ├── argocd-apps.tf
+
 │   ├── backend.tf
+
 │   ├── main.tf
+
 │   ├── modules
+
 │   │   ├── argocd
+
 │   │   │   └── main.tf
+
 │   │   ├── eks
+
 │   │   │   ├── main.tf
+
 │   │   │   ├── outputs.tf
+
 │   │   │   └── variables.tf
+
 │   │   ├── monitoring
+
 │   │   │   └── main.tf
+
 │   │   └── vpc
+
 │   │       ├── main.tf
+
 │   │       ├── output.tf
+
 │   │       └── variables.tf
+
 │   ├── outputs.tf
+
 │   ├── providers.tf
+
 │   ├── testing.sh
+
 │   └── variables.tf
+
 └── petapp
+
     ├── deployment.yaml
+    
     ├── kustomization.yaml
+    
     ├── namespace.yaml
+    
     ├── service.yaml
+    
     └── servicemonitor.yaml
 
 '''
