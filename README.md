@@ -82,10 +82,12 @@ Prometheus auto-discovers ServiceMonitors
 ```
 
 ```
+Grafana username: admin
 # Get Grafana admin password
-kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret <svc name> -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 ```
+ArgoCD username: admin
 # Get ArgoCD initial admin password
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
