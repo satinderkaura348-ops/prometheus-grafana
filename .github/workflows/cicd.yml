@@ -6,15 +6,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - dev
     
 jobs:
-  terraform:
-    uses: ./.github/workflows/terraform.yml
-    secrets: inherit
 
-  deploy-via-argocd:
-    needs: terraform
+  terraform-infra:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
