@@ -1,4 +1,4 @@
-'''EKS Monitoring Stack with GitOps (ArgoCD)'''
+```EKS Monitoring Stack with GitOps (ArgoCD)```
 🏗️ Architecture Overview
 Production-ready Kubernetes monitoring on AWS EKS using GitOps methodology with ArgoCD. Fully managed infrastructure-as-code with Terraform and automated CI/CD.
 
