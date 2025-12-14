@@ -2,7 +2,7 @@
 
 **🏗️ Architecture Overview**
 
-Production-ready Kubernetes monitoring on AWS EKS using GitOps methodology with ArgoCD. Fully managed infrastructure-as-code with Terraform and automated CI/CD.
+Production-ready Kubernetes monitoring solution on AWS EKS using GitOps methodology with ArgoCD. This infrastructure deploys a complete observability stack with Grafana for visualization and Prometheus for metrics collection, fully managed as code with Terraform.
 
 **Key Components**
 ```
