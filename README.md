@@ -16,19 +16,35 @@ Sample PetApp with ServiceMonitor
 GitHub Actions CI/CD pipeline
 
 📁 Project Structure
+
 '''
-├── infra/ # Terraform Infrastructure
-│ ├── modules/ # Reusable modules
-│ │ ├── vpc/ # VPC with public/private subnets
-│ │ ├── eks/ # EKS cluster & node groups
-│ │ ├── argocd/ # ArgoCD installation
-│ │ └── monitoring/ # Prometheus Stack
-│ ├── main.tf # Root configuration
-│ ├── variables.tf # Input variables
-│ └── argocd-apps.tf # ArgoCD app definitions
-│
-└── petapp/ # Sample application
-├── kustomization.yaml # Kustomize config
-├── deployment.yaml # App deployment
-└── servicemonitor.yaml # Prometheus monitoring
+├── README.md
+├── infra
+│   ├── argocd-apps.tf
+│   ├── backend.tf
+│   ├── main.tf
+│   ├── modules
+│   │   ├── argocd
+│   │   │   └── main.tf
+│   │   ├── eks
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   ├── monitoring
+│   │   │   └── main.tf
+│   │   └── vpc
+│   │       ├── main.tf
+│   │       ├── output.tf
+│   │       └── variables.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── testing.sh
+│   └── variables.tf
+└── petapp
+    ├── deployment.yaml
+    ├── kustomization.yaml
+    ├── namespace.yaml
+    ├── service.yaml
+    └── servicemonitor.yaml
+
 '''
