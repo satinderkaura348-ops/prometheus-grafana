@@ -76,12 +76,10 @@ ArgoCD syncs applications from Git
 Prometheus auto-discovers ServiceMonitors
 ```
 **🔐 Access Credentials**
-```Grafana Admin Password
-bash
+```
 # Get Grafana admin password
 kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-ArgoCD Initial Password
-bash
+
 # Get ArgoCD initial admin password
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
