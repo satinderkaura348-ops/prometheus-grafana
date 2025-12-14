@@ -21,7 +21,7 @@ GitHub Actions CI/CD pipeline
 
 **📁 Project Structure**
 
-'''
+```
 
 ├── README.md
 
@@ -78,5 +78,4 @@ GitHub Actions CI/CD pipeline
     ├── service.yaml
     
     └── servicemonitor.yaml
-
-'''
+```
