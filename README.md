@@ -52,3 +52,25 @@ GitHub Actions CI/CD pipeline
     ├── service.yaml
     └── servicemonitor.yaml
 ```
+
+**🛠️ Quick Deployment**
+**Manual Deployment**
+```
+bash
+cd infra/
+chmod 755 testing.sh
+./testing.sh
+
+```
+
+**Automated Deployment**
+```
+Push to dev branch triggers GitHub Actions (edit branch preference in cicd.yml)
+
+Terraform provisions infrastructure in stages
+
+ArgoCD syncs applications from Git
+
+Prometheus auto-discovers ServiceMonitors
+```
+
