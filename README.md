@@ -1,8 +1,10 @@
-```EKS Monitoring Stack with GitOps (ArgoCD)```
-🏗️ Architecture Overview
+                                        **EKS Monitoring Stack with GitOps (ArgoCD)**
+
+**🏗️ Architecture Overview**
 Production-ready Kubernetes monitoring on AWS EKS using GitOps methodology with ArgoCD. Fully managed infrastructure-as-code with Terraform and automated CI/CD.
 
-Key Components
+**Key Components**
+```
 AWS VPC with Multi-AZ networking
 
 Amazon EKS managed cluster
@@ -14,6 +16,7 @@ Prometheus & Grafana for observability
 Sample PetApp with ServiceMonitor
 
 GitHub Actions CI/CD pipeline
+```
 
 📁 Project Structure
 
