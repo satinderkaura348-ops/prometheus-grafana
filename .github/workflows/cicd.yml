@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - dev
     
 jobs:
   terraform:
-    uses: ./.github/workflows/terraform.yml
+    uses: ./.github/workflows/cicd.yml
     secrets: inherit
 
   deploy-via-argocd:
