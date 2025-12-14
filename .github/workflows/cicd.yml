@@ -3,7 +3,7 @@
 name: Full CI/CD + GitOps
 
 on:
-  workflow_dispatch:
+  workflow_call:
   push:
     branches:
       - dev
