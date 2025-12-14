@@ -1,5 +1,4 @@
-#infra/variables.tf
-
+#infra/modules/vpc/variables.tf
 variable "vpc_name" {
     default = "eks-vpc"
 }
@@ -27,3 +26,4 @@ variable "tags" {
     }
     description = "Tags for all resources"
 }
+

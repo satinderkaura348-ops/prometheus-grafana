@@ -1,4 +1,4 @@
-#infra/argocd-core.tf
+#infra/modules/argocd/main.tf
 
 resource "helm_release" "argocd" {
   name       = "argocd"
@@ -60,4 +60,8 @@ resource "helm_release" "argocd" {
 
 
   wait = true
+#   depends_on = [module.eks]
 }
+
+#infra/argocd-apps.tf
+
