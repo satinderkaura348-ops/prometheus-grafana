@@ -3,18 +3,14 @@
 name: Full CI/CD + GitOps
 
 on:
-  workflow_call:
+  workflow_dispatch:
   push:
     branches:
       - dev
     
 jobs:
-  terraform:
-    uses: ./.github/workflows/cicd.yml
-    secrets: inherit
 
-  deploy-via-argocd:
-    needs: terraform
+  terraform-infra:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
